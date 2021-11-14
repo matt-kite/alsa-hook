@@ -9,9 +9,9 @@ CFLAGS += -I. -Wall -funroll-loops -ffast-math -fPIC -DPIC -O0 -g
 LD := gcc
 LDFLAGS += -Wall -shared 
 
-SND_HOOK_OBJECTS = hook_voicen.o
+SND_HOOK_OBJECTS = hook_mqtt.o
 SND_HOOK_LIBS = -lasound
-SND_HOOK_BIN = alsa_hook_voicen.so
+SND_HOOK_BIN = alsa_hook_mqtt.so
 
 
 MULTIARCH:=$(shell gcc --print-multiarch)

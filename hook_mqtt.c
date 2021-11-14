@@ -25,19 +25,16 @@ static int _hook_hw_free(snd_pcm_hook_t *hook)
 
 static int _hook_close(snd_pcm_hook_t *hook)
 {
-    char buf[64];
-    snprintf(buf, 64, "mosquitto_pub -t /voicen/pcm/close -m %d", getpid());
+    char buf[] = "mosquitto_pub -h noid.local -t kitchenpi/alsa/status -m stopped";
     system(buf);
     return 0;
 }
 
-int _snd_pcm_hook_voicen_install(snd_pcm_t *pcm, snd_config_t *conf)
+int _snd_pcm_hook_mqtt_install(snd_pcm_t *pcm, snd_config_t *conf)
 {
     int err;
     snd_pcm_hook_t *h_close = NULL;
-    char buf[64];
-
-    snprintf(buf, 64, "mosquitto_pub -t /voicen/pcm/open -m %d", getpid());
+    char buf[] = "mosquitto_pub -h noid.local -t kitchenpi/alsa/status -m playing";
     system(buf);
     
 #if 0
@@ -77,4 +74,4 @@ error:
     return err;
 }
 
-SND_DLSYM_BUILD_VERSION(_snd_pcm_hook_voicen_install, SND_PCM_DLSYM_VERSION);
+SND_DLSYM_BUILD_VERSION(_snd_pcm_hook_mqtt_install, SND_PCM_DLSYM_VERSION);
