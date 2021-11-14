@@ -12,13 +12,13 @@ sudo make install
 ```
 
 ## Configure
-add the hooked pcm to `/etc/asound.conf` or `~/.asoundrc`
+Add the hooked pcm to `/etc/asound.conf` or `~/.asoundrc`.
 
 ```
 # hook entry
-pcm_hook_type.voicen {
-    install "_snd_pcm_hook_voicen_install"
-    lib "alsa_hook_voicen.so"
+pcm_hook_type.mqtt {
+    install "_snd_pcm_hook_mqtt_install"
+    lib "alsa_hook_mqtt.so"
 }
 
 pcm.hooked {
@@ -26,18 +26,25 @@ pcm.hooked {
     slave.pcm "hw:0"
 
     hooks.0 {
-        type "voicen"
+        type "mqtt"
     }
 }
 ```
+(optional) Change the MQTT topic and host for your use case. E.g. set the first topic level to your hostname.
+
 
 ## MQTT messages
 1.  when a hooked pcm is opened
 
-    + topic: `/voicen/pcm/open` 
-    + message: {pid}
+    + topic: `kitchenpi/alsa/status` 
+    + message: playing
 
 2.  when a hooked pcm is closed
 
-    + topic: `/voicen/pcm/close` 
-    + message: {pid}
+    + topic: `kitchenpi/alsa/status` 
+    + message: stopped
+
+## To Do
+
+- [] Configurable MQTT topic, host and message
+
